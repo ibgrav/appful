@@ -1,0 +1,35 @@
+name: "Deploy"
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    timeout-minutes: 10
+
+    concurrency:
+      group: "deploy"
+      cancel-in-progress: true
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: "pnpm"
+
+      - run: pnpm install --frozen-lockfile
+      - run: |
+          pnpm exec contentful-app-scripts upload --ci --bundle-dir ./dist \
+              --organization-id ${{ secrets.CONTENTFUL_ORG_ID }} \
+              --definition-id ${{ secrets.CONTENTFUL_APP_ID }} \
+              --token ${{ secrets.CONTENTFUL_TOKEN }}

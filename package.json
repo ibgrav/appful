@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "upload": "contentful-app-scripts upload --bundle-dir ./dist"
   },
   "dependencies": {
     "@contentful/app-sdk": "4.23.1",
@@ -15,6 +16,7 @@
     "react-dom": "18.2.0"
   },
   "devDependencies": {
+    "@contentful/app-scripts": "1.13.0",
     "@types/react": "18.2.28",
     "@types/react-dom": "18.2.13",
     "@vitejs/plugin-react": "4.1.0",
