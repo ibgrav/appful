@@ -1,12 +1,11 @@
 import { locations } from "@contentful/app-sdk";
 import { useSDK } from "@contentful/react-apps-toolkit";
-import { useMemo } from "react";
-import { Config } from "./locations/config";
-import { Page } from "./locations/page";
+import { Suspense, lazy, useMemo } from "react";
 
 const appLocations = {
-  [locations.LOCATION_APP_CONFIG]: Config,
-  [locations.LOCATION_PAGE]: Page
+  [locations.LOCATION_APP_CONFIG]: lazy(() => import("./locations/config")),
+  [locations.LOCATION_PAGE]: lazy(() => import("./locations/page")),
+  [locations.LOCATION_HOME]: lazy(() => import("./locations/home"))
 };
 
 export function App() {
@@ -18,5 +17,9 @@ export function App() {
     }
   }, [sdk.location]);
 
-  return Component ? <Component /> : null;
+  return Component ? (
+    <Suspense>
+      <Component />
+    </Suspense>
+  ) : null;
 }
