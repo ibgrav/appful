@@ -28,6 +28,7 @@ jobs:
           cache: "pnpm"
 
       - run: pnpm install --frozen-lockfile
+      - run: pnpm build
       - run: |
           pnpm exec contentful-app-scripts upload --ci --bundle-dir ./dist \
               --organization-id ${{ secrets.CONTENTFUL_ORG_ID }} \
